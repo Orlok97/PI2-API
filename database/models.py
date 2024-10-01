@@ -1,8 +1,8 @@
-from sqlalchemy import Integer, String, ForeignKey, Date, Time, DateTime
+from sqlalchemy import Integer, String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 from database import db
 from dataclasses import dataclass
-from datetime import datetime
+
 @dataclass
 class User(db.Model):
     __tablename__ = 'user_table'

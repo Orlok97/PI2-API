@@ -7,8 +7,6 @@ from datetime import datetime
 
 janitorial_bp=Blueprint('janitorial_bp',__name__)
 
-
-
 @janitorial_bp.route('/',methods=['GET'])
 @jwt_required()
 def get_requests():
