@@ -5,8 +5,8 @@ from database.models import User
 
 auth_bp=Blueprint('auth_bp',__name__)
 
-def auth_user(email):
-  return db.session.execute(db.select(User).filter_by(email=email)).scalar_one()
+def auth_user():
+  return db.session.execute(db.select(User).filter_by(email=get_jwt_identity())).scalar_one()
 def auth(email,senha):
   user=db.session.execute(db.select(User).filter_by(email=email)).scalar_one()
   if senha==user.senha:

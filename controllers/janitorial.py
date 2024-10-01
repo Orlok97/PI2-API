@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
 from database import db
 from database.models import Janitorial
 from controllers.auth import auth_user
@@ -21,7 +21,7 @@ def get_requests():
 def create_request():
   request_data=request.get_json()
   now=datetime.now()
-  user=auth_user(get_jwt_identity())
+  user=auth_user()
   try:
     req = Janitorial(
     rua=request_data['rua'],
