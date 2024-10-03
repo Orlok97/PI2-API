@@ -7,7 +7,7 @@ auth_bp=Blueprint('auth_bp',__name__)
 
 def auth_user():
 
-  return db.session.execute(db.select(User).filter_by(email=get_jwt_identity())).scalar()
+  return User.query.filter_by(email=get_jwt_identity()).first()
   
 def auth(email,senha):
   user=db.session.execute(db.select(User).filter_by(email=email)).scalar_one()
