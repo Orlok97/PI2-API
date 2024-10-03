@@ -1,17 +1,26 @@
+import os
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from database import db
 from database.models import Janitorial
 from controllers.auth import auth_user
 from datetime import datetime
+from werkzeug.utils import secure_filename
 
 janitorial_bp=Blueprint('janitorial_bp',__name__)
 
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+  
 @janitorial_bp.route('/',methods=['GET'])
 @jwt_required()
 def get_requests():
   reqs=db.session.execute(db.select(Janitorial).order_by(Janitorial.id)).scalars()
-  request_list=[req for req in reqs]
+  request_list=[]
+  for req in reqs:
+    request_list.append(req)
   return jsonify(request_list)
 
 @janitorial_bp.route('/',methods=['POST'])
@@ -20,6 +29,10 @@ def create_request():
   request_data=request.get_json()
   now=datetime.now()
   user=auth_user()
+  file=request.files['file']
+  if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('uploads/', filename))
   try:
     req = Janitorial(
     rua=request_data['rua'],
@@ -28,7 +41,7 @@ def create_request():
     cep=request_data['cep'],
     servico=request_data['servico'],
     desc=request_data['desc'],
-    anexo=request_data['anexo'],
+    anexo=filename,
     protocolo=request_data['protocolo'],
     data=now.strftime('%d/%m/%Y'),
     hora=now.strftime('%H:%M:%S'),
