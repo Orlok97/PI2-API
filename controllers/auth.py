@@ -10,7 +10,7 @@ def auth_user():
   return User.query.filter_by(email=get_jwt_identity()).first()
   
 def auth(email,senha):
-  user=db.session.execute(db.select(User).filter_by(email=email)).scalar_one()
+  user=User.query.filter_by(email=email).first()
   if senha==user.senha:
     return True
 
