@@ -55,7 +55,7 @@ def create_request():
 
         file.save(os.path.join('uploads/', filename))
     else:
-        filename = None
+        filename = ''
 
     try:
         req = Janitorial(
@@ -77,7 +77,7 @@ def create_request():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-    return jsonify({'response': 'Serviço solicitado'})
+    return jsonify({'response': 'Serviço solicitado'}), 200
 
 @janitorial_bp.route('/<int:id>', methods=['GET'])
 @jwt_required()
