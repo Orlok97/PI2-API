@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from config import Config
@@ -22,7 +22,11 @@ with app.app_context():
 @app.route('/api/',methods=['GET'])
 @app.route('/api/v1/',methods=['GET'])
 def api_description():
-  return 'hello'
+  return jsonify({
+    'name':'portal-zeladoria',
+    'version':'1.0.0',
+    'description':'API para solicitar e gerenciar servicos da pretefeitura de Sao Vicente.'
+  })
   
 app.register_blueprint(auth_bp,
 url_prefix='/api/v1/auth')
