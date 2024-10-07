@@ -6,7 +6,6 @@ from database.models import User
 auth_bp=Blueprint('auth_bp',__name__)
 
 def auth_user():
-
   return User.query.filter_by(email=get_jwt_identity()).first()
   
 def auth(email,senha):

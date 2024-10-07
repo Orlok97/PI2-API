@@ -7,5 +7,6 @@ class Config:
     self.app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///zeladoria.db"
     self.app.config["JWT_SECRET_KEY"]="HDJDUDJSJJDJDUJDJDU73JE8DJ39W02Khdje7"
     self.app.json.sort_keys = False
+    self.app.config['JSON_AS_ASCII'] = False
+    self.app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
     print('app configurado')
-    self.app.config["UPLOAD_FOLDER"] ='uploads/'   
