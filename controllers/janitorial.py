@@ -63,6 +63,7 @@ def create_request():
             rua=request_data['rua'],
             bairro=request_data['bairro'],
             area=request_data['area'],
+            numero=request_data['numero'],
             cep=request_data['cep'],
             servico=request_data['servico'],
             desc=request_data['desc'],
