@@ -52,7 +52,7 @@ def create_request():
 
 
         if not os.path.exists(UPLOAD_FOLDER):
-            os.makedirs('uploads/')
+            os.makedirs(UPLOAD_FOLDER)
 
         file.save(os.path.join(UPLOAD_FOLDER, filename))
     else:
