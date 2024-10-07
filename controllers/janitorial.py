@@ -6,6 +6,7 @@ from database.models import Janitorial
 from controllers.auth import auth_user
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from Config import UPLOAD_FOLDER
 
 janitorial_bp = Blueprint('janitorial_bp', __name__)
 
@@ -50,10 +51,10 @@ def create_request():
         filename = secure_filename(file.filename)
 
 
-        if not os.path.exists('uploads/'):
+        if not os.path.exists(UPLOAD_FOLDER):
             os.makedirs('uploads/')
 
-        file.save(os.path.join('uploads/', filename))
+        file.save(os.path.join(UPLOAD_FOLDER, filename))
     else:
         filename = ''
 
