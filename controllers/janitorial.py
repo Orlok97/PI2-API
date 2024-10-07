@@ -6,7 +6,7 @@ from database.models import Janitorial
 from controllers.auth import auth_user
 from datetime import datetime
 from werkzeug.utils import secure_filename
-from Config import UPLOAD_FOLDER
+from config import UPLOAD_FOLDER
 
 janitorial_bp = Blueprint('janitorial_bp', __name__)
 
