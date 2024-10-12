@@ -25,7 +25,7 @@ def api_description():
   return jsonify({
     'name':'portal-zeladoria',
     'version':'1.0.0',
-    'description':'API para solicitar e gerenciar servicos da pretefeitura de Sao Vicente.'
+    'description':'API para solicitar e gerenciar serviços da pretefeitura de São Vicente.'
   })
   
 app.register_blueprint(auth_bp,

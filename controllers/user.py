@@ -28,7 +28,7 @@ def create_user():
     db.session.rollback()
     return jsonify({'error':str(e)})
   return jsonify({
-    'response':'usuario cadastrado!'
+    'response':'usúario cadastrado!'
   })
   
 @user_bp.route('/<int:id>',methods=['GET'])
@@ -38,7 +38,7 @@ def get_user(id):
     user=db.get_or_404(User,id)
   except Exception as e:
     return jsonify({
-      'response':'usuario não encontrado',
+      'response':'usúario não encontrado',
       'error':str(e)
     }),400
   return jsonify(user)
@@ -69,4 +69,4 @@ def delete_user(id):
     db.session.commit()
   except Exception as e:
     return jsonify({'response':str(e)})
-  return jsonify({'response':'usuario excluido'})
+  return jsonify({'response':'usúario excluido'})

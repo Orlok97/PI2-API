@@ -108,7 +108,7 @@ def update_request(id):
         db.session.commit()
     except Exception as e:
         return jsonify({'response': str(e)}), 400
-    return jsonify({'response': 'Solicitação alterada'})
+    return jsonify({'response': 'Os Dados da Solicitação foram alterados'})
 
 @janitorial_bp.route('/<int:id>', methods=['DELETE'])
 @jwt_required()
