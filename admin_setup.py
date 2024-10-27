@@ -5,7 +5,7 @@ def create_admin():
   email=input(str('digite o e-mail de acesso do administrador: '))
   senha=input(str('digite a senha de acesso do administrador: '))
   payload = {'nome':nome,'email': email, 'senha': senha}
-  r = requests.post('http://127.0.0.1:5000/api/v1/admin', json=payload)
+  r = requests.post('https://orlok.pythonanywhere.com/api/v1/admin', json=payload)
   print(r.text)
   
 def main():
