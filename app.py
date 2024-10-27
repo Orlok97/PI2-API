@@ -4,7 +4,7 @@ from flask_jwt_extended import JWTManager
 from config import Config
 from database import db
 
-from controllers.user import citizen_bp
+from controllers.citizen import citizen_bp
 from controllers.janitorial import janitorial_bp
 from controllers.employee import employee_bp
 from controllers.service import service_bp
