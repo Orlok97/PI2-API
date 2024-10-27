@@ -9,15 +9,14 @@ def create_admin():
   
 def main():
   running=True
-  print('digite: ')
+  print('digite: 1 para cadastrar o administrador')
   while running:
     cmd=str(input('>> '))
     if cmd=='exit':
       running=False
       break
-    elif cmd=='token':
-      t=generate_admin_access_token(cmd)
-      print(t)
+    elif cmd=='1':
+      create_admin()
 
 if __name__ == '__main__':
   main()
