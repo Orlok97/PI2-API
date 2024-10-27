@@ -1,12 +1,12 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from database import db
-from database.models import User, Admin, Employee
+from database.models import Citizen, Admin, Employee
 
 auth_bp=Blueprint('auth_bp',__name__)
 
-def auth_user():
-  return User.query.filter_by(email=get_jwt_identity()).first()
+def auth_citizen():
+  return Citizen.query.filter_by(email=get_jwt_identity()).first()
   
 def auth(email,senha,model):
   user_model=model.query.filter_by(email=email).first()
@@ -23,7 +23,7 @@ def login():
   if permission == 'admin':
     model=Admin
   elif permission =='citizen':
-    model=User
+    model=Citizen
   elif permission == 'employee':
     model=Employee
     
@@ -43,7 +43,7 @@ def login():
 @jwt_required()
 def get_auth_citizen():
   user_email=get_jwt_identity()
-  user=db.session.execute(db.select(User).filter_by(email=user_email)).scalar_one()
+  user=db.session.execute(db.select(Citizen).filter_by(email=user_email)).scalar_one()
   return jsonify(user)
   
 @auth_bp.route('/admin',methods=['GET'])

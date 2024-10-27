@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from database import db
 from database.models import Janitorial
-from controllers.auth import auth_user
+from controllers.auth import auth_citizen
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from config import UPLOAD_FOLDER
@@ -44,7 +44,7 @@ def get_requests():
 def create_request():
     request_data = request.form.to_dict()
     now = datetime.now()
-    user = auth_user()
+    user = auth_citizen()
 
     file = request.files['file']
     if file and allowed_file(file.filename):

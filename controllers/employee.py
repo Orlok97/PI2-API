@@ -6,7 +6,7 @@ from database.models import Employee
 employee_bp=Blueprint('employee_bp',__name__)
 
 @employee_bp.route('/',methods=['GET'])
-@jwt_required()
+#@jwt_required()
 def list_employees():
   employees=db.session.execute(db.select(Employee).order_by(Employee.id)).scalars()
   employee_list=[e for e in employees]

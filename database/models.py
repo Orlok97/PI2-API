@@ -4,8 +4,8 @@ from database import db
 from dataclasses import dataclass
 
 @dataclass
-class User(db.Model):
-    __tablename__ = 'user_table'
+class Citizen(db.Model):
+    __tablename__ = 'citizen_table'
     
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -30,7 +30,7 @@ class Janitorial(db.Model):
     data: Mapped[str] = mapped_column(String(100), nullable=False)
     hora: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(String(100), default="pendente",nullable=False)
-    user_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("citizen_table.id"), nullable=False)
 
 @dataclass
 class Service(db.Model):
@@ -52,5 +52,6 @@ class Employee(db.Model):
 class Admin(db.Model):
   __tablename__='admin_table'
   id: Mapped[int]=mapped_column(Integer,primary_key=True)
+  nome: Mapped[str]=mapped_column(String(100),nullable=False)
   email: Mapped[str]=mapped_column(String(100),nullable=False, unique=True)
   senha: Mapped[str]=mapped_column(String(100),nullable=False)
