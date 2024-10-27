@@ -44,7 +44,7 @@ def get_citizen(id):
   return jsonify(citizen)
   
 @citizen_bp.route('/<int:id>',methods=['PUT'])
-jwt_required()
+@jwt_required()
 def update_citizen(id):
   request_data=request.get_json()
   try:
