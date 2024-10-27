@@ -6,7 +6,7 @@ from database.models import Citizen
 citizen_bp=Blueprint('citizen_bp',__name__)
 
 @citizen_bp.route('/',methods=['GET'])
-#@jwt_required()
+@jwt_required()
 def list_citizens():
   citizens = db.session.execute(db.select(Citizen).order_by(Citizen.id)).scalars()
   citizen_list=[citizen for citizen in citizens]
@@ -32,7 +32,7 @@ def create_citizen():
   })
   
 @citizen_bp.route('/<int:id>',methods=['GET'])
-#@jwt_required()
+@jwt_required()
 def get_citizen(id):
   try:
     citizen=db.get_or_404(Citizen,id)
@@ -44,7 +44,7 @@ def get_citizen(id):
   return jsonify(citizen)
   
 @citizen_bp.route('/<int:id>',methods=['PUT'])
-#@jwt_required()
+jwt_required()
 def update_citizen(id):
   request_data=request.get_json()
   try:
@@ -61,7 +61,7 @@ def update_citizen(id):
   return jsonify({'response':'dados alterados'})
   
 @citizen_bp.route('/<int:id>',methods=['DELETE'])
-#@jwt_required()
+@jwt_required()
 def delete_citizen(id):
   try:
     citizen=db.get_or_404(Citizen,id)
