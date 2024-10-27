@@ -56,7 +56,7 @@ def create_request():
 
         file.save(os.path.join(UPLOAD_FOLDER, filename))
     else:
-        filename = ''
+        filename = None
 
     try:
         req = Janitorial(

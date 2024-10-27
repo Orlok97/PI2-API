@@ -25,9 +25,32 @@ class Janitorial(db.Model):
     cep: Mapped[str] = mapped_column(String(20), nullable=False)
     servico: Mapped[str] = mapped_column(String(100), nullable=False)
     desc: Mapped[str] = mapped_column(String(200))
-    anexo: Mapped[str] = mapped_column(String(100))
+    anexo: Mapped[str] = mapped_column(String(100),nullable=True)
     protocolo: Mapped[str] = mapped_column(String(100), nullable=False)
     data: Mapped[str] = mapped_column(String(100), nullable=False)
     hora: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(String(100), default="pendente",nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("user_table.id"), nullable=False)
+
+@dataclass
+class Service(db.Model):
+  __tablename__='service_table'
+  id: Mapped[int]=mapped_column(Integer, primary_key=True)
+  nome: Mapped[str]=mapped_column(String(100),nullable=False)
+  desc: Mapped[str]=mapped_column(String(200),nullable=False)
+    
+@dataclass
+class Employee(db.Model):
+  __tablename__='employee_table'
+  id: Mapped[int]=mapped_column(Integer, primary_key=True)
+  nome: Mapped[str]=mapped_column(String(100),nullable=False)
+  email: Mapped[str]=mapped_column(String(100), unique=True, nullable=False)
+  senha: Mapped[str]=mapped_column(String(100),nullable=False)
+  cargo: Mapped[str]=mapped_column(String(100),nullable=True)
+  
+@dataclass
+class Admin(db.Model):
+  __tablename__='admin_table'
+  id: Mapped[int]=mapped_column(Integer,primary_key=True)
+  email: Mapped[str]=mapped_column(String(100),nullable=False, unique=True)
+  senha: Mapped[str]=mapped_column(String(100),nullable=False)

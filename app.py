@@ -6,6 +6,9 @@ from database import db
 
 from controllers.user import user_bp
 from controllers.janitorial import janitorial_bp
+from controllers.employee import employee_bp
+from controllers.service import service_bp
+from controllers.admin import admin_bp
 from controllers.auth import auth_bp
 
 app=Flask(__name__)
@@ -25,7 +28,7 @@ def api_description():
   return jsonify({
     'name':'portal-zeladoria',
     'version':'1.0.0',
-    'description':'API para solicitar e gerenciar serviços da pretefeitura de São Vicente.'
+    'description':'API para solicitar e gerenciar serviços da prefeitura de São Vicente.'
   })
   
 app.register_blueprint(auth_bp,
@@ -34,6 +37,12 @@ app.register_blueprint(user_bp,
 url_prefix='/api/v1/user')
 app.register_blueprint(janitorial_bp,
 url_prefix='/api/v1/janitorial')
+app.register_blueprint(employee_bp,
+url_prefix='/api/v1/employee')
+app.register_blueprint(service_bp,
+url_prefix='/api/v1/service')
+app.register_blueprint(admin_bp,
+url_prefix='/api/v1/admin')
 
 if __name__ == '__main__':
   app.run(debug=True)
