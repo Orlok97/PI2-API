@@ -5,6 +5,21 @@ from database.models import Citizen
 
 citizen_bp=Blueprint('citizen_bp',__name__)
 
+def upload(file):
+  profile_pic='profile/'
+  try:
+    if file and allowed_file(file.filename):
+      filename = secure_filename(file.filename)
+      if not os.path.exists(UPLOAD_FOLDER+profile_pic):
+        os.makedirs(UPLOAD_FOLDER+profile_pic)
+      file.save(os.path.join(UPLOAD_FOLDER+profile_pic, filename))
+      return filename
+    else:
+      return None
+  except Exception as e:
+    jsonify({'erro':str(e)})
+    return None
+
 @citizen_bp.route('/',methods=['GET'])
 @jwt_required()
 def list_citizens():
@@ -46,7 +61,13 @@ def get_citizen(id):
 @citizen_bp.route('/<int:id>',methods=['PUT'])
 @jwt_required()
 def update_citizen(id):
-  request_data=request.get_json()
+  request_data=request.form.to_dict()
+  try:
+    file = request.files['file']
+    filename=upload(file)
+  except Exception as e:
+    filename=None
+    print('erro',e)
   try:
     citizen=db.get_or_404(Citizen,id)
     citizen.nome=request_data['nome']

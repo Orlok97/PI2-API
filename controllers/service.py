@@ -19,7 +19,8 @@ def create_service():
   try:
     service=Service(
       nome=request_data['nome'],
-      desc=request_data['desc']
+      desc=request_data['desc'],
+      prazo=request_data['prazo']
       )
     db.session.add(service)
     db.session.commit()
@@ -53,6 +54,7 @@ def update_service(id):
     service=db.get_or_404(Service,id)
     service.nome=request_data['nome']
     service.desc=request_data['desc']
+    service.prazo=request_data['prazo']
     db.session.add(service)
     db.session.commit()
     return jsonify({
