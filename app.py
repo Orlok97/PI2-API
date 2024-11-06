@@ -12,7 +12,7 @@ from controllers.admin import admin_bp
 from controllers.auth import auth_bp
 
 app=Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 config=Config(app)
 jwt=JWTManager(app)

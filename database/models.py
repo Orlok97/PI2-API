@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, ForeignKey
+from sqlalchemy import Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 from database import db
 from dataclasses import dataclass
@@ -12,6 +12,7 @@ class Citizen(db.Model):
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
     telefone: Mapped[str] = mapped_column(String(20), nullable=False)
     senha: Mapped[str] = mapped_column(String(100), nullable=False)
+    foto: Mapped[str] = mapped_column(String(100),nullable=True)
 
 @dataclass
 class Janitorial(db.Model):
@@ -24,12 +25,15 @@ class Janitorial(db.Model):
     area: Mapped[str] = mapped_column(String(100), nullable=False)
     cep: Mapped[str] = mapped_column(String(20), nullable=False)
     servico: Mapped[str] = mapped_column(String(100), nullable=False)
-    desc: Mapped[str] = mapped_column(String(200))
-    anexo: Mapped[str] = mapped_column(String(100),nullable=True)
+    desc: Mapped[str] = mapped_column(String(200), nullable=True)
+    anexo: Mapped[str] = mapped_column(String(100), nullable=True)
     protocolo: Mapped[str] = mapped_column(String(100), nullable=False)
     data: Mapped[str] = mapped_column(String(100), nullable=False)
     hora: Mapped[str] = mapped_column(String(100), nullable=False)
-    status: Mapped[str] = mapped_column(String(100), default="pendente",nullable=False)
+    status: Mapped[str] = mapped_column(String(100), default="pendente", nullable=False)
+    agendamento: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
+    user_name: Mapped[str] = mapped_column(String(100), nullable=True)
+    user_phone: Mapped[str] = mapped_column(String(100), nullable=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("citizen_table.id"), nullable=False)
 
 @dataclass

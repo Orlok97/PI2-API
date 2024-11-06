@@ -29,7 +29,10 @@ def janitorial_to_dict(janitorial):
         'protocolo': janitorial.protocolo,
         'data': janitorial.data,
         'hora': janitorial.hora,
-        'user_id': janitorial.user_id
+        'user_id': janitorial.user_id,
+        'user_name':janitorial.user_name,
+        'user_phone':janitorial.user_phone,
+        'agendamento':janitorial.agendamento
     }
 
 @janitorial_bp.route('/', methods=['GET'])
@@ -38,48 +41,59 @@ def get_requests():
     reqs = db.session.execute(db.select(Janitorial).order_by(Janitorial.id)).scalars()
     request_list = [janitorial_to_dict(req) for req in reqs]
     return jsonify(request_list)
-
+    
+def upload(file):
+  try:
+    if file and allowed_file(file.filename):
+      filename = secure_filename(file.filename)
+      if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+      file.save(os.path.join(UPLOAD_FOLDER, filename))
+      return filename
+    else:
+      return None
+  except Exception as e:
+    jsonify({'erro':str(e)})
+    return None
+  
 @janitorial_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_request():
-    request_data = request.form.to_dict()
-    now = datetime.now()
-    user = auth_citizen()
-
+  request_data = request.get_json()
+  now = datetime.now()
+  user = auth_citizen()
+  try:
     file = request.files['file']
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
+    filename=upload(file)
+  except Exception as e:
+    filename=None
+    print('erro',e)
+    
+  try:
+    req = Janitorial(
+    rua=request_data['rua'],
+    bairro=request_data['bairro'],
+    area=request_data['area'],
+    numero=request_data['numero'],
+    cep=request_data['cep'],
+    servico=request_data['servico'],
+    desc=request_data['desc'],
+    anexo=filename,
+    protocolo=request_data['protocolo'],
+    data=now.strftime('%d/%m/%Y'),
+    hora=now.strftime('%H:%M:%S'),
+    user_name=user.nome,
+    user_phone=user.telefone,
+    user_id=user.id
+    )
+    db.session.add(req)
+    db.session.commit()
+    print(user.nome)
+  except Exception as e:
+    db.session.rollback()
+    return jsonify({'error': str(e)}), 400
 
-
-        if not os.path.exists(UPLOAD_FOLDER):
-            os.makedirs(UPLOAD_FOLDER)
-
-        file.save(os.path.join(UPLOAD_FOLDER, filename))
-    else:
-        filename = None
-
-    try:
-        req = Janitorial(
-            rua=request_data['rua'],
-            bairro=request_data['bairro'],
-            area=request_data['area'],
-            numero=request_data['numero'],
-            cep=request_data['cep'],
-            servico=request_data['servico'],
-            desc=request_data['desc'],
-            anexo=filename,
-            protocolo=request_data['protocolo'],
-            data=now.strftime('%d/%m/%Y'),
-            hora=now.strftime('%H:%M:%S'),
-            user_id=user.id
-        )
-        db.session.add(req)
-        db.session.commit()
-        print(user.nome)
-    except Exception as e:
-        return jsonify({'error': str(e)}), 400
-
-    return jsonify({'response': 'Serviço solicitado'}), 200
+  return jsonify({'response': 'Serviço solicitado'}), 200
 
 @janitorial_bp.route('/<int:id>', methods=['GET'])
 @jwt_required()
@@ -120,3 +134,45 @@ def delete_request(id):
     except Exception as e:
         return jsonify({'response': str(e)}), 400
     return jsonify({'response': 'Solicitação excluída'})
+
+@janitorial_bp.route('/schedule',methods=['POST'])
+@jwt_required()
+def schedule_request():
+  request_data = request.get_json()
+  data = datetime.strptime(request_data['data'],'%Y-%m-%d')
+  data_formatada=data.strftime('%d/%m/%Y')
+  hora=datetime.strptime(request_data['hora'],'%H:%M')
+  hora_formatada=hora.strftime('%H:%M')
+  user = auth_citizen()
+  try:
+    file = request.files['file']
+    filename = upload(file)
+  except Exception as e:
+    filename=None
+  
+  try:
+    req = Janitorial(
+      rua=request_data['rua'],
+      bairro=request_data['bairro'],
+      area=request_data['area'],
+      numero=request_data['numero'],
+      cep=request_data['cep'],
+      servico=request_data['servico'],
+      desc=request_data['desc'],
+      anexo=filename,
+      protocolo=request_data['protocolo'],
+      data=data_formatada,
+      hora=hora_formatada,
+      agendamento=True,
+      user_name=user.nome,
+      user_phone=user.telefone,
+      user_id=user.id
+      )
+    db.session.add(req)
+    db.session.commit()
+    print(user.nome)
+  except Exception as e:
+    return jsonify({'error': str(e)}), 400
+
+  return jsonify({'response': 'Serviço solicitado'}), 200
+  
