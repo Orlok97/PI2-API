@@ -1,4 +1,4 @@
-UPLOAD_FOLDER = '/portal-zeladoria/PI2-API/uploads/'
+UPLOAD_FOLDER = 'portal-zeladoria/PI2-API/uploads/'
 
 class Config:
   def __init__(self, app):
