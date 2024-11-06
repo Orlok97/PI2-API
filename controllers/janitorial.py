@@ -59,7 +59,7 @@ def upload(file):
 @janitorial_bp.route('/', methods=['POST'])
 @jwt_required()
 def create_request():
-  request_data = request.get_json()
+  request_data = request.form.to_dict()
   now = datetime.now()
   user = auth_citizen()
   try:
@@ -138,7 +138,7 @@ def delete_request(id):
 @janitorial_bp.route('/schedule',methods=['POST'])
 @jwt_required()
 def schedule_request():
-  request_data = request.get_json()
+  request_data = request.form.to_dict()
   data = datetime.strptime(request_data['data'],'%Y-%m-%d')
   data_formatada=data.strftime('%d/%m/%Y')
   hora=datetime.strptime(request_data['hora'],'%H:%M')
