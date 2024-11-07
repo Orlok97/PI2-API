@@ -1,20 +1,12 @@
-import os
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from database import db
 from database.models import Janitorial
-from controllers.auth import auth_citizen
 from datetime import datetime
-from werkzeug.utils import secure_filename
-from config import UPLOAD_FOLDER
+from controllers.auth import auth_citizen
+from controllers.upload import upload
 
 janitorial_bp = Blueprint('janitorial_bp', __name__)
-
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 def janitorial_to_dict(janitorial):
     return {
@@ -41,20 +33,6 @@ def get_requests():
     reqs = db.session.execute(db.select(Janitorial).order_by(Janitorial.id)).scalars()
     request_list = [janitorial_to_dict(req) for req in reqs]
     return jsonify(request_list)
-    
-def upload(file):
-  try:
-    if file and allowed_file(file.filename):
-      filename = secure_filename(file.filename)
-      if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
-      file.save(os.path.join(UPLOAD_FOLDER, filename))
-      return filename
-    else:
-      return None
-  except Exception as e:
-    jsonify({'erro':str(e)})
-    return None
   
 @janitorial_bp.route('/', methods=['POST'])
 @jwt_required()
@@ -64,7 +42,7 @@ def create_request():
   user = auth_citizen()
   try:
     file = request.files['file']
-    filename=upload(file)
+    filename=upload(file,'anexo')
   except Exception as e:
     filename=None
     print('erro',e)
@@ -146,7 +124,7 @@ def schedule_request():
   user = auth_citizen()
   try:
     file = request.files['file']
-    filename = upload(file)
+    filename = upload(file,'anexo')
   except Exception as e:
     filename=None
   

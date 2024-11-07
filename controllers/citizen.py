@@ -2,23 +2,9 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 from database import db
 from database.models import Citizen
+from controllers.upload import upload
 
 citizen_bp=Blueprint('citizen_bp',__name__)
-
-def upload(file):
-  profile_pic='profile/'
-  try:
-    if file and allowed_file(file.filename):
-      filename = secure_filename(file.filename)
-      if not os.path.exists(UPLOAD_FOLDER+profile_pic):
-        os.makedirs(UPLOAD_FOLDER+profile_pic)
-      file.save(os.path.join(UPLOAD_FOLDER+profile_pic, filename))
-      return filename
-    else:
-      return None
-  except Exception as e:
-    jsonify({'erro':str(e)})
-    return None
 
 @citizen_bp.route('/',methods=['GET'])
 @jwt_required()
@@ -64,7 +50,7 @@ def update_citizen(id):
   request_data=request.form.to_dict()
   try:
     file = request.files['file']
-    filename=upload(file)
+    filename=upload(file,'profile')
   except Exception as e:
     filename=None
     print('erro',e)
@@ -74,6 +60,7 @@ def update_citizen(id):
     citizen.email=request_data['email']
     citizen.telefone=request_data['telefone']
     citizen.senha=request_data['senha']
+    citizen.foto=filename
     db.session.add(citizen)
     db.session.commit()
   except Exception as e:
