@@ -4,7 +4,7 @@ from database import db
 from database.models import Janitorial
 from datetime import datetime
 from controllers.auth import auth_citizen
-from controllers.upload import upload
+from modules.upload import upload
 
 janitorial_bp = Blueprint('janitorial_bp', __name__)
 

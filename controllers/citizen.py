@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 from database import db
 from database.models import Citizen
-from controllers.upload import upload
+from modules.upload import upload
 
 citizen_bp=Blueprint('citizen_bp',__name__)
 
