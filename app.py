@@ -10,6 +10,7 @@ from controllers.employee import employee_bp
 from controllers.service import service_bp
 from controllers.admin import admin_bp
 from controllers.auth import auth_bp
+from controllers.uploads import uploads_bp
 
 app=Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -43,6 +44,8 @@ app.register_blueprint(service_bp,
 url_prefix='/api/v1/service')
 app.register_blueprint(admin_bp,
 url_prefix='/api/v1/admin')
+app.register_blueprint(uploads_bp,
+url_prefix='/uploads')
 
 if __name__ == '__main__':
   app.run(debug=True)
