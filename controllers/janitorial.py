@@ -115,44 +115,21 @@ def delete_request(id):
         return jsonify({'response': str(e)}), 400
     return jsonify({'response': 'Solicitação excluída'})
 
-@janitorial_bp.route('/schedule',methods=['POST'])
+@janitorial_bp.route('/schedule/<int:id>',methods=['PUT'])
 @jwt_required()
-def schedule_request():
-  request_data = request.form.to_dict()
+def schedule_request(id):
+  request_data = request.get_json()
   data = datetime.strptime(request_data['data'],'%Y-%m-%d')
   data_formatada=data.strftime('%d/%m/%Y')
-  hora=datetime.strptime(request_data['hora'],'%H:%M')
-  hora_formatada=hora.strftime('%H:%M')
-  user = auth_citizen()
   try:
-    file = request.files['file']
-    filename = upload(file,'anexo')
-  except Exception as e:
-    filename=None
-  
-  try:
-    req = Janitorial(
-      rua=request_data['rua'],
-      bairro=request_data['bairro'],
-      area=request_data['area'],
-      numero=request_data['numero'],
-      cep=request_data['cep'],
-      servico=request_data['servico'],
-      desc=request_data['desc'],
-      anexo=filename,
-      protocolo=request_data['protocolo'],
-      data=data_formatada,
-      hora=hora_formatada,
-      agendamento=True,
-      user_name=user.nome,
-      user_phone=user.telefone,
-      user_id=user.id
-      )
+    req = db.get_or_404(Janitorial, id)
+    req.status=request_data['status']
+    req.agendamento=True if req.data ==data_formatada else False
+    req.data=data_formatada
     db.session.add(req)
     db.session.commit()
-    print(user.nome)
   except Exception as e:
     return jsonify({'error': str(e)}), 400
 
-  return jsonify({'response': 'Serviço solicitado'}), 200
+  return jsonify({'response': 'serviço alterado'}), 200
   
