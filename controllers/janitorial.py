@@ -21,6 +21,7 @@ def janitorial_to_dict(janitorial):
         'protocolo': janitorial.protocolo,
         'data': janitorial.data,
         'hora': janitorial.hora,
+        'status':janitorial.status,
         'user_id': janitorial.user_id,
         'user_name':janitorial.user_name,
         'user_phone':janitorial.user_phone,
@@ -96,6 +97,7 @@ def update_request(id):
         req.desc = request_data['desc']
         req.anexo = request_data['anexo']
         req.protocolo = request_data['protocolo']
+        req.status = request_data['status']
         db.session.add(req)
         db.session.commit()
     except Exception as e:
