@@ -20,6 +20,7 @@ def janitorial_to_dict(janitorial):
         'anexo': janitorial.anexo,
         'protocolo': janitorial.protocolo,
         'data': janitorial.data,
+        'data_prevista' : janitorial.data_prevista,
         'hora': janitorial.hora,
         'status':janitorial.status,
         'user_id': janitorial.user_id,
@@ -119,13 +120,13 @@ def delete_request(id):
 @jwt_required()
 def schedule_request(id):
   request_data = request.get_json()
-  data = datetime.strptime(request_data['data'],'%Y-%m-%d')
+  data = datetime.strptime(request_data['data_prevista'],'%Y-%m-%d')
   data_formatada=data.strftime('%d/%m/%Y')
   try:
     req = db.get_or_404(Janitorial, id)
     req.status=request_data['status']
-    req.agendamento=True if req.data ==data_formatada else False
-    req.data=data_formatada
+    req.data_prevista=data_formatada
+    req.agendamento=True
     db.session.add(req)
     db.session.commit()
   except Exception as e:

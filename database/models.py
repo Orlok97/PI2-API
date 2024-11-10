@@ -6,7 +6,6 @@ from dataclasses import dataclass
 @dataclass
 class Citizen(db.Model):
     __tablename__ = 'citizen_table'
-    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     nome: Mapped[str] = mapped_column(String(100), nullable=False)
     email: Mapped[str] = mapped_column(String(100), unique=True, nullable=False)
@@ -17,7 +16,6 @@ class Citizen(db.Model):
 @dataclass
 class Janitorial(db.Model):
     __tablename__ = 'janitorial_table'
-    
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     rua: Mapped[str] = mapped_column(String(100), nullable=False)
     bairro: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -29,6 +27,7 @@ class Janitorial(db.Model):
     anexo: Mapped[str] = mapped_column(String(100), nullable=True)
     protocolo: Mapped[str] = mapped_column(String(100), nullable=False)
     data: Mapped[str] = mapped_column(String(100), nullable=False)
+    data_prevista: Mapped[str] = mapped_column(String(100),nullable=True)
     hora: Mapped[str] = mapped_column(String(100), nullable=False)
     status: Mapped[str] = mapped_column(String(100), default="pendente", nullable=False)
     agendamento: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
