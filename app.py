@@ -7,7 +7,6 @@ from database import db
 
 app=Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
-
 config=Config(app)
 jwt=JWTManager(app)
 router=Router(app)

@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 from database import db
-from database.models import Citizen
+from database.models import Citizen, Janitorial
+from controllers.auth import auth_citizen
 from modules.upload import upload
 
 citizen_bp=Blueprint('citizen_bp',__name__)
@@ -78,3 +79,10 @@ def delete_citizen(id):
   except Exception as e:
     return jsonify({'response':str(e)})
   return jsonify({'response':'usúario excluido'})
+
+@citizen_bp.route('/requests',methods=['GET'])
+@jwt_required()
+def list_citizen_requests():
+  citizen=auth_citizen()
+  citizen_requests=Janitorial.query.filter_by(user_id=citizen.id).all()
+  return jsonify(citizen_requests)
