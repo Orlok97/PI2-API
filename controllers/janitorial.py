@@ -13,6 +13,7 @@ def janitorial_to_dict(janitorial):
         'id': janitorial.id,
         'rua': janitorial.rua,
         'bairro': janitorial.bairro,
+        'numero': janitorial.numero,
         'area': janitorial.area,
         'cep': janitorial.cep,
         'servico': janitorial.servico,
