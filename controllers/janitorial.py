@@ -11,10 +11,11 @@ janitorial_bp = Blueprint('janitorial_bp', __name__)
 
 def get_last_protocol(servico):
        ano_atual = datetime.now().year
-       protocolo = db.session.query(Protocol).filter_by(servico=servico, ano=ano_atual).first()
+       protocolo = db.session.query(Protocol).filter_by(servico=servico, ano=ano_atual).order_by(Protocol.id.desc()).first()
 
        if protocolo:
-           return protocolo.ultimo_numero + 1
+         print('prpt',protocolo.ultimo_numero)
+         return protocolo.ultimo_numero + 1
        else:
            return 1
            
@@ -63,6 +64,7 @@ def get_requests():
 @jwt_required()
 def create_request():
   request_data = request.form.to_dict()
+  #request_data = request.get_json()
   now = datetime.now()
   user = auth_citizen()
   try:

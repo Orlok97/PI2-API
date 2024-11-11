@@ -58,7 +58,7 @@ def update_citizen(id):
   print(filename)
   try:
     citizen=db.get_or_404(Citizen,id)
-    #citizen.nome=request_data['nome']
+    citizen.nome=request_data['nome']
     citizen.telefone=request_data['telefone']
     citizen.senha=request_data['senha']
     citizen.foto=filename
