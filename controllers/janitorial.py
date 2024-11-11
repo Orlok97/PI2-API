@@ -1,13 +1,35 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from database import db
-from database.models import Janitorial
+from database.models import Janitorial, Protocol
 from datetime import datetime
 from controllers.auth import auth_citizen
 from modules.upload import upload
+from datetime import datetime
 
 janitorial_bp = Blueprint('janitorial_bp', __name__)
 
+def get_last_protocol(servico):
+       ano_atual = datetime.now().year
+       protocolo = db.session.query(Protocol).filter_by(servico=servico, ano=ano_atual).first()
+
+       if protocolo:
+           return protocolo.ultimo_numero + 1
+       else:
+           return 1
+           
+def create_new_protocol(servico):
+       ano_atual = datetime.now().year
+       ultimo_numero = get_last_protocol(servico)
+
+       numero_formatado = str(ultimo_numero).zfill(4)
+       protocolo = f"{servico[:4].upper()}{ano_atual}{numero_formatado}"
+       novo_protocolo = Protocol(servico=servico, ultimo_numero=ultimo_numero, ano=ano_atual)
+       db.session.add(novo_protocolo)
+       db.session.commit()
+
+       return protocolo
+       
 def janitorial_to_dict(janitorial):
     return {
         'id': janitorial.id,
@@ -60,7 +82,7 @@ def create_request():
     servico=request_data['servico'],
     desc=request_data['desc'],
     anexo=filename,
-    protocolo=request_data['protocolo'],
+    protocolo=create_new_protocol(request_data['servico']),
     data=now.strftime('%d/%m/%Y'),
     hora=now.strftime('%H:%M:%S'),
     user_name=user.nome,

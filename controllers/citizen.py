@@ -51,14 +51,14 @@ def update_citizen(id):
   request_data=request.form.to_dict()
   try:
     file = request.files['file']
-    filename=upload(file,'profile')
+    filename=upload(file,'profile/')
   except Exception as e:
+    print('erro ',e)
     filename=None
-    print('erro',e)
+  print(filename)
   try:
     citizen=db.get_or_404(Citizen,id)
-    citizen.nome=request_data['nome']
-    citizen.email=request_data['email']
+    #citizen.nome=request_data['nome']
     citizen.telefone=request_data['telefone']
     citizen.senha=request_data['senha']
     citizen.foto=filename

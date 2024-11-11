@@ -14,6 +14,14 @@ class Citizen(db.Model):
     foto: Mapped[str] = mapped_column(String(100),nullable=True)
 
 @dataclass
+class Protocol(db.Model):
+  __tablename__ = 'protocol_table'
+  id: Mapped[int] = mapped_column(Integer, primary_key=True)
+  servico: Mapped[str] = mapped_column(String(100),nullable=False)
+  ultimo_numero: Mapped[int]=mapped_column(Integer,nullable=False)
+  ano: Mapped[int]= mapped_column(Integer, nullable=False)
+  
+@dataclass
 class Janitorial(db.Model):
     __tablename__ = 'janitorial_table'
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
