@@ -59,3 +59,10 @@ def get_auth_employee():
   user_email=get_jwt_identity()
   user=db.session.execute(db.select(Employee).filter_by(email=user_email)).scalar_one()
   return jsonify(user)
+
+@auth_bp.route('/data-analysis',methods=['GET'])
+def get_data():
+  token=create_access_token(identity=1)
+  return jsonify({
+    'token':token
+  })

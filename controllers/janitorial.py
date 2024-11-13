@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from database import db
 from database.models import Janitorial, Protocol
-from datetime import datetime
 from controllers.auth import auth_citizen
 from modules.upload import upload
 from datetime import datetime

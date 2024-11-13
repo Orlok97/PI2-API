@@ -49,18 +49,22 @@ def get_citizen(id):
 @jwt_required()
 def update_citizen(id):
   request_data=request.form.to_dict()
+  user=auth_citizen()
   try:
     file = request.files['file']
-    filename=upload(file,'profile/')
+    filename=upload(file,'profile')
   except Exception as e:
     print('erro ',e)
     filename=None
   print(filename)
   try:
     citizen=db.get_or_404(Citizen,id)
-    citizen.nome=request_data['nome']
-    citizen.telefone=request_data['telefone']
-    citizen.senha=request_data['senha']
+    citizen.nome=request_data['nome'] if request_data['nome'] != '' else user.nome
+    
+    citizen.telefone=request_data['telefone'] if request_data['telefone'] != '' else user.telefone
+    
+    citizen.senha=request_data['senha'] if request_data['senha'] != '' else user.senha
+    
     citizen.foto=filename
     db.session.add(citizen)
     db.session.commit()
