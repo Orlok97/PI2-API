@@ -37,7 +37,7 @@ class Janitorial(db.Model):
     data: Mapped[str] = mapped_column(String(100), nullable=False)
     data_prevista: Mapped[str] = mapped_column(String(100),nullable=True)
     hora: Mapped[str] = mapped_column(String(100), nullable=False)
-    status: Mapped[str] = mapped_column(String(100), default="pendente", nullable=False)
+    status: Mapped[str] = mapped_column(String(100), default="Pendente", nullable=False)
     agendamento: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     user_name: Mapped[str] = mapped_column(String(100), nullable=True)
     user_phone: Mapped[str] = mapped_column(String(100), nullable=True)
