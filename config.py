@@ -1,14 +1,17 @@
+import os
 from datetime import timedelta
+from dotenv import load_dotenv
 
 UPLOAD_FOLDER = 'portal-zeladoria/PI2-API/uploads/'
+load_dotenv()
 
 class Config:
   def __init__(self, app):
     self.app=app
     self.configure()
   def configure(self):
-    self.app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///zeladoria.db"
-    self.app.config["JWT_SECRET_KEY"]="HDJDUDJSJJDJDUJDJDU73JE8DJ39W02Khdje7"
+    self.app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv('DATABASE_URI')
+    self.app.config["JWT_SECRET_KEY"]=os.getenv('SECRET_KEY')
     self.app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
     self.app.json.sort_keys = False
     self.app.config['JSON_AS_ASCII'] = False
