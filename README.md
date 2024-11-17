@@ -182,7 +182,7 @@ api/v1/auth/<str:permission>
 ```
 ***JSON Headers***
 ```json
-"Authorization": "Bearer <token_de_acesso>,
+"Authorization": "Bearer <token_de_acesso>",
 "Content-Type: "application/json"
 ```
 ## Service
