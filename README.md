@@ -67,7 +67,7 @@ api/v1/citizen/<int:id>
 ```
 ***JSON Headers***
 ```json
-"Authorization" : "Bearer <token_de_acesso",
+"Authorization" : "Bearer <token_de_acesso>",
 "Content-Type": "application/json"
 ```
 
