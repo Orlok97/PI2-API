@@ -121,7 +121,8 @@ api/v1/admin
 ***JSON Body***
 ```json
 "nome":"nome do admin",
-"email"
+"email": "email do admin",
+"senha": "senha do admin"
 ```
 O admin também pode ser cadastrado ao rodar o script admin_setup.py dentro do diretório do prijeto, como mostrado no exemplo abaixo:
 ```sh
@@ -155,9 +156,35 @@ api/v1/admin/<int:id>
 
 Endpoint para login.
 ```sh
-api/v1/auth/login
+api/v1/auth
 ```
+Na chave permission, o valor deve receber "citizen" "admin", ou "employee".
 
+***JSON Body***
+```json
+"email": "email do úsuario",
+"senha": "senha do úsuario",
+"permission": "permissão do úsuario"
+```
+***JSON Response***
+```json
+"response": "úsuario autenticado",
+"token": "token retornado",
+"status": "ok",
+"permission": "permissão retornada"
+
+```
+### GET
+Endpoint para buscar dados do úsuario autenticado.
+permissões:"citizen", "admin", "employee"
+```sh
+api/v1/auth/<str:permission>
+```
+***JSON Headers***
+```json
+"Authorization": "Bearer <token_de_acesso>,
+"Content-Type: "application/json"
+```
 ## Service
 
 ### POST
