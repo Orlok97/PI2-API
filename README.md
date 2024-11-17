@@ -27,10 +27,10 @@ https://orlok.pythonanywhere.com/api/v1/citizen
 }
 ```
 #### GET
-Endpoint para listar ou buscar um determinado usuario pelo id
+Endpoint para listar ou buscar um determinado usuario pelo id, se não for passado o id a resposta será uma lista com todos os úsuarios cadastrados.
 
 ```sh
-https://orlok.pythonanywhere.com/api/v1/citizen/<id>
+https://orlok.pythonanywhere.com/api/v1/citizen/<int: id>
 ```
 **JSON Headers**
 
