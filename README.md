@@ -23,6 +23,7 @@ A API desenvolvida tem como objetivo facilitar a comunicação do munícipe vice
    - [DELETE - Remover um administrador](#delete-admin)
 4. [Endpoints de Auth](#auth)
    - [POST - Login](#post-auth)
+   - [GET - Auth](#get-auth)
 5. [Endpoints de Service](#service)
    - [POST - Cadastrar um novo serviço](#post-service)
    - [GET - Listar serviços ou buscar por ID](#get-service)
