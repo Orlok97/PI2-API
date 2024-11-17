@@ -9,12 +9,15 @@ Este projeto integrador foi desenvolvido como parte do curso de Engenharia de Co
 A API desenvolvida tem como objetivo facilitar a comunicação do munícipe vicentino com a prefeitura de São Vicente através de um portal que conecta ambas as partes, promovendo maior eficácia na gestão e resolução de solicitações de zeladoria urbana.
 
 ## Endpoints
-
-### citizen
+### URL Base
+```sh
+https://orlok.pythonanywhere.com/
+```
+### Citizen
 #### POST
 Endpoint para cadastrar um novo munícipe.
 ```sh
-https://orlok.pythonanywhere.com/api/v1/citizen
+api/v1/citizen
 ```
 **Requisição JSON**:
 
@@ -27,10 +30,10 @@ https://orlok.pythonanywhere.com/api/v1/citizen
 }
 ```
 #### GET
-Endpoint para listar ou buscar um determinado usuario pelo id, se não for passado o id a resposta será uma lista com todos os úsuarios cadastrados.
+Endpoint para listar munícipes ou buscar um determinado munícipe pelo id, se não for passado o id a resposta será uma lista com todos os munícipes cadastrados.
 
 ```sh
-https://orlok.pythonanywhere.com/api/v1/citizen/<int: id>
+api/v1/citizen/<int:id>
 ```
 **JSON Headers**
 
@@ -38,5 +41,38 @@ https://orlok.pythonanywhere.com/api/v1/citizen/<int: id>
 "Authorization" : "Bearer <token_de_acesso>",
 "Content-Type" : "application/json"
 ```
+#### PUT
+Endpoint para alterar os dados de um determinado munícipe pelo id
+
+```sh
+api/v1/citizen/<int:id>
+```
+
+**JSON Headers**
+```json
+"Authorization" : "Bearer <token_de_acesso>",
+"Content-Type" : "application/json"
+```
+***JSON Body***
+```json
+"nome": "seu nome",
+"telefone": "seu telefone",
+"senha": "sua senha"
+```
+
+#### DELETE
+Endpoint para deletar um determinado munícipe pelo id.
+```sh
+api/v1/citizen/<int:id>
+```
+***JSON Headers***
+```json
+"Authorization" : "Bearer <token_de_acesso",
+"Content-Type": "application/json"
+```
+
+
+
+
 
 
