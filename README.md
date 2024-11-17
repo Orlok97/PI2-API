@@ -124,7 +124,7 @@ api/v1/admin
 "email": "email do admin",
 "senha": "senha do admin"
 ```
-O admin também pode ser cadastrado ao rodar o script admin_setup.py dentro do diretório do prijeto, como mostrado no exemplo abaixo:
+O admin também pode ser cadastrado ao rodar o script admin_setup.py dentro do diretório do projeto, como mostrado no exemplo abaixo:
 ```sh
 python admin_setup.py
 ```
