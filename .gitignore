@@ -1,5 +1,6 @@
 #minha venv local
 api/
+portal_zeladoria/
 portal-zeladoria/
 # Byte-compiled / optimized / DLL files
 __pycache__/
