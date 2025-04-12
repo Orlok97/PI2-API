@@ -11,3 +11,9 @@ def client():
     with app.test_client() as client:
         yield client
 
+@pytest.fixture
+def auth_token(client):
+    payload={"email":"joao@gmail.com", "senha":"123", "permission":"citizen"}
+    response=client.post('/api/v1/auth/',json=payload)
+    assert response.status_code == 200
+    return response.get_json()['token']
