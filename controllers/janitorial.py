@@ -11,9 +11,7 @@ janitorial_bp = Blueprint('janitorial_bp', __name__)
 def get_last_protocol(servico):
        ano_atual = datetime.now().year
        protocolo = db.session.query(Protocol).filter_by(servico=servico, ano=ano_atual).order_by(Protocol.id.desc()).first()
-
        if protocolo:
-         print('prpt',protocolo.ultimo_numero)
          return protocolo.ultimo_numero + 1
        else:
            return 1
@@ -21,13 +19,11 @@ def get_last_protocol(servico):
 def create_new_protocol(servico):
        ano_atual = datetime.now().year
        ultimo_numero = get_last_protocol(servico)
-
        numero_formatado = str(ultimo_numero).zfill(4)
        protocolo = f"{servico[:4].upper()}{ano_atual}{numero_formatado}"
        novo_protocolo = Protocol(servico=servico, ultimo_numero=ultimo_numero, ano=ano_atual)
        db.session.add(novo_protocolo)
        db.session.commit()
-
        return protocolo
 
 def create_analysis():
@@ -35,7 +31,6 @@ def create_analysis():
    analysis=Analysis(data_solicitacao=last_row.data, data_finalizado=None, hora_solicitacao=last_row.hora,hora_finalizado=None,janitorial_id=last_row.id)
    db.session.add(analysis)
    db.session.commit()
-   print(last_row.hora)
    return True
 
 def janitorial_to_dict(janitorial):
@@ -101,7 +96,6 @@ def create_request():
     db.session.add(req)
     db.session.commit()
     create_analysis()
-    print(user.nome)
   except Exception as e:
     db.session.rollback()
     return jsonify({'error': str(e)}), 400
