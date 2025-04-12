@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
 from database import db
-from database.models import Janitorial, Protocol
+from database.models import Janitorial, Protocol, Analysis
 from controllers.auth import auth_citizen
 from modules.upload import upload
 from datetime import datetime
@@ -29,7 +29,15 @@ def create_new_protocol(servico):
        db.session.commit()
 
        return protocolo
-       
+
+def create_analysis():
+   last_row = db.session.execute(db.select(Janitorial).order_by(Janitorial.id.desc())).first()[0]
+   analysis=Analysis(data_solicitacao=last_row.data, data_finalizado=None, hora_solicitacao=last_row.hora,hora_finalizado=None,janitorial_id=last_row.id)
+   db.session.add(analysis)
+   db.session.commit()
+   print(last_row.hora)
+   return True
+
 def janitorial_to_dict(janitorial):
     return {
         'id': janitorial.id,
@@ -92,11 +100,11 @@ def create_request():
     )
     db.session.add(req)
     db.session.commit()
+    create_analysis()
     print(user.nome)
   except Exception as e:
     db.session.rollback()
     return jsonify({'error': str(e)}), 400
-
   return jsonify({'response': 'Serviço solicitado'}), 200
 
 @janitorial_bp.route('/<int:id>', methods=['GET'])
@@ -146,8 +154,16 @@ def schedule_request(id):
   request_data = request.get_json()
   data = datetime.strptime(request_data['data_prevista'],'%Y-%m-%d')
   data_formatada=data.strftime('%d/%m/%Y')
+  now = datetime.now()
+  hora_formatada=now.strftime('%H:%M:%S')
   try:
     req = db.get_or_404(Janitorial, id)
+    if request_data['status']=='Finalizado':
+       analysis = db.session.query(Analysis).filter_by(janitorial_id=id).first()
+       analysis.data_finalizado=data_formatada
+       analysis.hora_finalizado=hora_formatada
+       db.session.add(analysis)
+       db.session.commit()
     req.status=request_data['status']
     req.data_prevista=data_formatada
     req.agendamento=True

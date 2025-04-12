@@ -2,7 +2,7 @@ import pytest
 from . import client
 
 def test_create_citizen(client):
-    payload={"nome":"Ana", "email":"ana@gmail.com","telefone":"13-45621435","senha":"123"}
+    payload={"nome":"João", "email":"joao@gmail.com","telefone":"13-2342341435","senha":"123"}
     response=client.post('/api/v1/citizen/',json=payload)
     assert response.status_code == 200
     print(response.get_json())
@@ -20,7 +20,7 @@ def test_list_citizens(client, auth_token):
     print(response.get_json())
 
 def test_get_citizen_by_id(client, auth_token):
-    response=client.get('/api/v1/citizen/3',headers={'Authorization':f"Bearer {auth_token}"})
+    response=client.get('/api/v1/citizen/4',headers={'Authorization':f"Bearer {auth_token}"})
     assert response.status_code == 200
     print(response.get_json())
     

@@ -44,6 +44,16 @@ class Janitorial(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey("citizen_table.id"), nullable=False)
 
 @dataclass
+class Analysis(db.Model):
+   __tablename__='analysis_table'
+   id: Mapped[int]=mapped_column(Integer, primary_key=True)
+   data_solicitacao: Mapped[str] = mapped_column(String(100), nullable=False)
+   data_finalizado: Mapped[str] = mapped_column(String(100), nullable=True)
+   hora_solicitacao: Mapped[str] = mapped_column(String(100), nullable=False)
+   hora_finalizado: Mapped[str] = mapped_column(String(100), nullable=True)
+   janitorial_id: Mapped[int] = mapped_column(ForeignKey("janitorial_table.id"), nullable=False)
+   
+@dataclass
 class Service(db.Model):
   __tablename__='service_table'
   id: Mapped[int]=mapped_column(Integer, primary_key=True)
