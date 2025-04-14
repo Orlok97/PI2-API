@@ -123,8 +123,6 @@ def update_request(id):
         req.servico = request_data['servico']
         req.desc = request_data['desc']
         req.anexo = request_data['anexo']
-        req.protocolo = request_data['protocolo']
-        req.status = request_data['status']
         db.session.add(req)
         db.session.commit()
     except Exception as e:
