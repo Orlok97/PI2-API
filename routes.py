@@ -5,6 +5,7 @@ from controllers.service import service_bp
 from controllers.admin import admin_bp
 from controllers.auth import auth_bp
 from controllers.uploads import uploads_bp
+from controllers.analysis import analysis_bp
 
 class Router:
   def __init__(self,app):
@@ -24,3 +25,5 @@ class Router:
     self.app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
     self.app.register_blueprint(uploads_bp,
     url_prefix='/uploads')
+    self.app.register_blueprint(analysis_bp,
+    url_prefix='/api/v1/analysis')
