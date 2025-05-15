@@ -10,7 +10,7 @@ def test_get_requests(client, auth_token):
     
 def test_create_request(client, auth_token):
     token=auth_token(payload)
-    payload={
+    data={
         "rua":"Rua Luis Gonçaves",
         "bairro":"JD Rio Branco",
         "area":"continental",
@@ -20,7 +20,7 @@ def test_create_request(client, auth_token):
         "desc":"descrição",
         "anexo":""
         }
-    response=client.post('/api/v1/janitorial/',data=payload, headers={'Authorization':f"Bearer {token}"})
+    response=client.post('/api/v1/janitorial/',data=data, headers={'Authorization':f"Bearer {token}"})
     assert response.status_code == 200
     print(response.get_json())
 
