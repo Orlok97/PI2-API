@@ -33,7 +33,7 @@ def test_get_request_by_id(client, auth_token):
 
 def test_update_request(client, auth_token):
     token=auth_token(payload)
-    payload={
+    data={
         "rua":"Rua Ferndado Salles",
         "bairro":"JD Rio Humatá",
         "area":"continental",
@@ -43,7 +43,7 @@ def test_update_request(client, auth_token):
         "desc":"alguma descrição",
         "anexo":None
     }
-    response=client.put('/api/v1/janitorial/1',headers={'Authorization':f"Bearer {token}"}, json=payload)
+    response=client.put('/api/v1/janitorial/1',headers={'Authorization':f"Bearer {token}"}, json=data)
     assert response.status_code == 200
     print(response.get_json())
 
